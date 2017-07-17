@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mic_0" translatesAutoresizingMaskIntoConstraints="NO" id="2Ux-CA-eli">
+                                <rect key="frame" x="157" y="70" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="PBM-Oq-HEp"/>
+                                    <constraint firstAttribute="width" constant="60" id="V9q-wu-Att"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9mp-bb-QwW">
+                                <rect key="frame" x="16" y="607" width="262.5" height="50"/>
+                                <color key="backgroundColor" red="0.090196078431372548" green="0.5725490196078431" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="yVU-5T-3aM"/>
+                                </constraints>
+                                <state key="normal" title="按住 说话">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BoS-sG-zei">
+                                <rect key="frame" x="246.5" y="607" width="112.5" height="50"/>
+                                <color key="backgroundColor" red="0.93333333330000001" green="0.19215686269999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="qPE-jR-JGQ"/>
+                                </constraints>
+                                <state key="normal" title="播放">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="playButtonPress" destination="BYZ-38-t0r" eventType="touchUpInside" id="wto-X9-9G7"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g43-FW-3Zg">
+                                <rect key="frame" x="0.0" y="333.5" width="375" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="9mp-bb-QwW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="0xi-lF-GIc"/>
+                            <constraint firstItem="BoS-sG-zei" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.3" id="3iQ-4U-tfk"/>
+                            <constraint firstItem="g43-FW-3Zg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8Yx-2j-vTt"/>
+                            <constraint firstItem="g43-FW-3Zg" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="OPb-hr-VJE"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="BoS-sG-zei" secondAttribute="bottom" constant="10" id="PM6-bn-xtW"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="9mp-bb-QwW" secondAttribute="bottom" constant="10" id="Xj8-7N-nW0"/>
+                            <constraint firstItem="2Ux-CA-eli" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="Xqb-2W-sOS"/>
+                            <constraint firstItem="9mp-bb-QwW" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.7" id="ZZc-ZI-04G"/>
+                            <constraint firstItem="2Ux-CA-eli" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aSL-pd-JJo"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BoS-sG-zei" secondAttribute="trailing" id="lF3-Em-xfR"/>
+                            <constraint firstItem="g43-FW-3Zg" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="qxb-E8-TnO"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="messageLabel" destination="g43-FW-3Zg" id="JwW-mh-pWv"/>
+                        <outlet property="playButton" destination="BoS-sG-zei" id="sZ4-Eu-lTV"/>
+                        <outlet property="recordButton" destination="9mp-bb-QwW" id="dcd-6w-sJd"/>
+                        <outlet property="volumeImageView" destination="2Ux-CA-eli" id="BFy-e3-LeW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-42.399999999999999" y="133.5832083958021"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="mic_0" width="128" height="128"/>
+    </resources>
+</document>
