@@ -70,6 +70,7 @@
     
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:filePath] error:nil];
     self.player.delegate = self;
+    NSLog(@"self.player:%d", (int)self.player.deviceCurrentTime);
     
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];

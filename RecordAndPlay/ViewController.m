@@ -67,7 +67,7 @@
         return;
     }
     
-    self.messageLabel.text = [NSString stringWithFormat:@"录音时间:%.lf秒\n文件大小:%.1fK", currentTime, audioData.length / 1024.0f];
+    self.messageLabel.text = [NSString stringWithFormat:@"录音时间:%.lf秒\n文件大小:%.1fK\n文件总时间:%d秒", currentTime, audioData.length / 1024.0f, (int)[[self class] durationWithVideo:[NSURL fileURLWithPath:RecordFilePath]]];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [[LFVoiceManager instance] stopRecording];
@@ -129,6 +129,19 @@
 - (void)playFinished:(LFVoiceManager *)manager
 {
     [self.playButton setTitle:@"播放" forState:UIControlStateNormal];
+}
+
+#pragma mark - 工具
+
+// 获取播放总时间
++ (NSUInteger)durationWithVideo:(NSURL *)videoUrl
+{
+    NSDictionary *opts = [NSDictionary dictionaryWithObject:@(NO) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+    AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:videoUrl options:opts]; // 初始化视频媒体文件
+    NSUInteger second = 0;
+    second = urlAsset.duration.value / urlAsset.duration.timescale; // 获取视频总时长,单位秒
+    
+    return second;
 }
 
 @end
