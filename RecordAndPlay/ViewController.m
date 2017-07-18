@@ -7,11 +7,14 @@
 //
 
 #define RecordFilePath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"lvRecord.caf"]
+#define RecordMP3FilePath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"lvRecord.mp3"]
 
 #import "ViewController.h"
-#import "LFVoiceManager.h"
+#import "LFVoiceRecorder.h"
+#import "LFVoicePlayer.h"
+#import "LFVoiceUtils.h"
 
-@interface ViewController () <LFVoiceManagerDelegate>
+@interface ViewController () <LFVoiceRecorderDelegate, LFVoicePlayerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *recordButton;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
@@ -24,8 +27,8 @@
 
 - (void)dealloc
 {
-    if ([[LFVoiceManager instance].recorder isRecording]) [[LFVoiceManager instance] stopPlaying];
-    if ([[LFVoiceManager instance].player isPlaying]) [[LFVoiceManager instance] stopRecording];
+    if ([[LFVoiceRecorder instance].recorder isRecording]) [self stopPlay];
+    if ([[LFVoicePlayer instance].player isPlaying]) [self stopRecord];
 }
 
 - (void)viewDidLoad
@@ -35,7 +38,8 @@
     [self.recordButton setTitle:@"按住 说话" forState:UIControlStateNormal];
     [self.recordButton setTitle:@"松开 结束" forState:UIControlStateHighlighted];
     
-    [LFVoiceManager instance].delegate = self;
+    [LFVoiceRecorder instance].delegate = self;
+    [LFVoicePlayer instance].delegate = self;
     
     // 录音按钮
     [self.recordButton addTarget:self action:@selector(recordBtnDidTouchDown:) forControlEvents:UIControlEventTouchDown];
@@ -43,41 +47,68 @@
     [self.recordButton addTarget:self action:@selector(recordBtnDidTouchDragExit:) forControlEvents:UIControlEventTouchDragExit];
 }
 
+#pragma mark - 录音、播放、界面更新
+
+- (void)startRecord
+{
+    [[LFVoiceRecorder instance] startRecording:RecordFilePath];
+}
+
+- (void)stopRecord
+{
+    [[LFVoiceRecorder instance] stopRecording];
+}
+
+- (void)startPlay
+{
+    [[LFVoicePlayer instance] playAudio:RecordMP3FilePath];
+    [self.playButton setTitle:@"停止" forState:UIControlStateNormal];
+}
+
+- (void)stopPlay
+{
+    [[LFVoicePlayer instance] stopPlaying];
+    [self.playButton setTitle:@"播放" forState:UIControlStateNormal];
+}
+
 #pragma mark - 按钮点击
 
 - (void)recordBtnDidTouchDown:(UIButton *)recordBtn
 {
-    [[LFVoiceManager instance] startRecording:RecordFilePath];
+    [self stopPlay];
+    [self startRecord];
 }
 
 // 点击
 - (void)recordBtnDidTouchUpInside:(UIButton *)recordBtn
 {
-    double currentTime = [LFVoiceManager instance].recorder.currentTime;
-    NSData *audioData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:RecordFilePath]];
-    
-    if (currentTime < 2 || audioData.length < 200)
-    {
-        self.volumeImageView.image = [UIImage imageNamed:@"mic_0"];
-        [self alertWithMessage:@"说话时间太短"];
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            [[LFVoiceManager instance] stopRecording];
-            [[LFVoiceManager instance] deleteFile:RecordFilePath];
-        });
-        return;
-    }
-    
-    self.messageLabel.text = [NSString stringWithFormat:@"录音时间:%.lf秒\n文件大小:%.1fK\n文件总时间:%d秒", currentTime, audioData.length / 1024.0f, (int)[[self class] durationWithVideo:[NSURL fileURLWithPath:RecordFilePath]]];
-    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [[LFVoiceManager instance] stopRecording];
+        [self stopRecord];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.volumeImageView.image = [UIImage imageNamed:@"mic_0"];
         });
     });
     
-    // 已成功录音
-    NSLog(@"已成功录音");
+    // 内容太少
+    double currentTime = [LFVoiceRecorder instance].recorder.currentTime;
+    NSData *audioData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:RecordFilePath]];
+    if (currentTime < 2 || audioData.length < 200)
+    {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            [LFVoiceUtils deleteFile:RecordFilePath];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self alertWithMessage:@"说话时间太短"];
+            });
+        });
+        return;
+    }
+    
+    // 转换成MP3格式
+    [LFVoiceUtils cafToMp3:RecordFilePath toMp3Path:RecordMP3FilePath];
+    NSData *mp3AudioData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:RecordMP3FilePath]];
+    
+    self.messageLabel.text = [NSString stringWithFormat:@"录音时间:%.lf秒\nCaf文件大小:%.1fK\nMp3文件大小:%.1fK\n文件总时间:%d秒", currentTime, audioData.length / 1024.0f, mp3AudioData.length / 1024.0f, (int)[LFVoiceUtils durationWithVideo:[NSURL fileURLWithPath:RecordMP3FilePath]]];
 }
 
 // 手指从按钮上移除
@@ -85,8 +116,8 @@
 {
     self.volumeImageView.image = [UIImage imageNamed:@"mic_0"];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [[LFVoiceManager instance] stopRecording];
-        [[LFVoiceManager instance] deleteFile:RecordFilePath];
+        [self stopRecord];
+        [LFVoiceUtils deleteFile:RecordFilePath];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self alertWithMessage:@"已取消录音"];
@@ -99,13 +130,12 @@
 {
     if ([[self.playButton titleForState:UIControlStateNormal] isEqualToString:@"播放"])
     {
-        [[LFVoiceManager instance] playAudio:RecordFilePath];
-        [self.playButton setTitle:@"停止" forState:UIControlStateNormal];
+        [self stopRecord];
+        [self startPlay];
     }
     else
     {
-        [[LFVoiceManager instance] stopPlaying];
-        [self.playButton setTitle:@"播放" forState:UIControlStateNormal];
+        [self stopPlay];
     }
 }
 
@@ -118,30 +148,19 @@
     [self presentViewController:confirmAlert animated:YES completion:nil];
 }
 
-#pragma mark - LFVoiceManagerDelegate
+#pragma mark - LFVoiceRecorderDelegate
 
-- (void)recordManager:(LFVoiceManager *)manager volume:(int)volume
+- (void)recordManager:(LFVoiceRecorder *)manager volume:(int)volume
 {
     NSString *imageName = [NSString stringWithFormat:@"mic_%d", volume];
     self.volumeImageView.image = [UIImage imageNamed:imageName];
 }
 
-- (void)playFinished:(LFVoiceManager *)manager
+#pragma mark - LFVoicePlayerDelegate
+
+- (void)playFinished:(LFVoiceRecorder *)manager
 {
     [self.playButton setTitle:@"播放" forState:UIControlStateNormal];
-}
-
-#pragma mark - 工具
-
-// 获取播放总时间
-+ (NSUInteger)durationWithVideo:(NSURL *)videoUrl
-{
-    NSDictionary *opts = [NSDictionary dictionaryWithObject:@(NO) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
-    AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:videoUrl options:opts]; // 初始化视频媒体文件
-    NSUInteger second = 0;
-    second = urlAsset.duration.value / urlAsset.duration.timescale; // 获取视频总时长,单位秒
-    
-    return second;
 }
 
 @end

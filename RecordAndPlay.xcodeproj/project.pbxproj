@@ -13,8 +13,10 @@
 		6EBA7A941F1C877F0004BA59 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EBA7A921F1C877F0004BA59 /* Main.storyboard */; };
 		6EBA7A961F1C877F0004BA59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6EBA7A951F1C877F0004BA59 /* Assets.xcassets */; };
 		6EBA7A991F1C877F0004BA59 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EBA7A971F1C877F0004BA59 /* LaunchScreen.storyboard */; };
-		6EBA7AA21F1C8AC50004BA59 /* LFVoiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBA7AA11F1C8AC50004BA59 /* LFVoiceManager.m */; };
-		6EBA7AA41F1CAF740004BA59 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 6EBA7AA31F1CAF740004BA59 /* README.md */; };
+		6EBA7AE31F1DE59A0004BA59 /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EBA7AE01F1DE59A0004BA59 /* libmp3lame.a */; };
+		6EBA7AE41F1DE59A0004BA59 /* LFVoiceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBA7AE21F1DE59A0004BA59 /* LFVoiceUtils.m */; };
+		6EBA7AEA1F1DE5E60004BA59 /* LFVoiceRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBA7AE91F1DE5E60004BA59 /* LFVoiceRecorder.m */; };
+		6EBA7AED1F1DE5F10004BA59 /* LFVoicePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBA7AEC1F1DE5F10004BA59 /* LFVoicePlayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,9 +30,15 @@
 		6EBA7A951F1C877F0004BA59 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6EBA7A981F1C877F0004BA59 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6EBA7A9A1F1C877F0004BA59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6EBA7AA01F1C8AC50004BA59 /* LFVoiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFVoiceManager.h; sourceTree = "<group>"; };
-		6EBA7AA11F1C8AC50004BA59 /* LFVoiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFVoiceManager.m; sourceTree = "<group>"; };
 		6EBA7AA31F1CAF740004BA59 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		6EBA7ADF1F1DE59A0004BA59 /* lame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lame.h; sourceTree = "<group>"; };
+		6EBA7AE01F1DE59A0004BA59 /* libmp3lame.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmp3lame.a; sourceTree = "<group>"; };
+		6EBA7AE11F1DE59A0004BA59 /* LFVoiceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFVoiceUtils.h; sourceTree = "<group>"; };
+		6EBA7AE21F1DE59A0004BA59 /* LFVoiceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFVoiceUtils.m; sourceTree = "<group>"; };
+		6EBA7AE81F1DE5E60004BA59 /* LFVoiceRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFVoiceRecorder.h; sourceTree = "<group>"; };
+		6EBA7AE91F1DE5E60004BA59 /* LFVoiceRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFVoiceRecorder.m; sourceTree = "<group>"; };
+		6EBA7AEB1F1DE5F10004BA59 /* LFVoicePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFVoicePlayer.h; sourceTree = "<group>"; };
+		6EBA7AEC1F1DE5F10004BA59 /* LFVoicePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFVoicePlayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EBA7AE31F1DE59A0004BA59 /* libmp3lame.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,12 +74,11 @@
 		6EBA7A881F1C877F0004BA59 /* RecordAndPlay */ = {
 			isa = PBXGroup;
 			children = (
+				6EBA7ADA1F1DE59A0004BA59 /* voice */,
 				6EBA7A8C1F1C877F0004BA59 /* AppDelegate.h */,
 				6EBA7A8D1F1C877F0004BA59 /* AppDelegate.m */,
 				6EBA7A8F1F1C877F0004BA59 /* ViewController.h */,
 				6EBA7A901F1C877F0004BA59 /* ViewController.m */,
-				6EBA7AA01F1C8AC50004BA59 /* LFVoiceManager.h */,
-				6EBA7AA11F1C8AC50004BA59 /* LFVoiceManager.m */,
 			);
 			path = RecordAndPlay;
 			sourceTree = "<group>";
@@ -86,6 +94,53 @@
 			);
 			name = "Supporting Files";
 			path = RecordAndPlay;
+			sourceTree = "<group>";
+		};
+		6EBA7ADA1F1DE59A0004BA59 /* voice */ = {
+			isa = PBXGroup;
+			children = (
+				6EBA7ADB1F1DE59A0004BA59 /* play */,
+				6EBA7ADC1F1DE59A0004BA59 /* record */,
+				6EBA7ADD1F1DE59A0004BA59 /* utils */,
+			);
+			path = voice;
+			sourceTree = "<group>";
+		};
+		6EBA7ADB1F1DE59A0004BA59 /* play */ = {
+			isa = PBXGroup;
+			children = (
+				6EBA7AEB1F1DE5F10004BA59 /* LFVoicePlayer.h */,
+				6EBA7AEC1F1DE5F10004BA59 /* LFVoicePlayer.m */,
+			);
+			path = play;
+			sourceTree = "<group>";
+		};
+		6EBA7ADC1F1DE59A0004BA59 /* record */ = {
+			isa = PBXGroup;
+			children = (
+				6EBA7AE81F1DE5E60004BA59 /* LFVoiceRecorder.h */,
+				6EBA7AE91F1DE5E60004BA59 /* LFVoiceRecorder.m */,
+			);
+			path = record;
+			sourceTree = "<group>";
+		};
+		6EBA7ADD1F1DE59A0004BA59 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				6EBA7ADE1F1DE59A0004BA59 /* 3rd */,
+				6EBA7AE11F1DE59A0004BA59 /* LFVoiceUtils.h */,
+				6EBA7AE21F1DE59A0004BA59 /* LFVoiceUtils.m */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		6EBA7ADE1F1DE59A0004BA59 /* 3rd */ = {
+			isa = PBXGroup;
+			children = (
+				6EBA7ADF1F1DE59A0004BA59 /* lame.h */,
+				6EBA7AE01F1DE59A0004BA59 /* libmp3lame.a */,
+			);
+			path = 3rd;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,10 +216,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EBA7A911F1C877F0004BA59 /* ViewController.m in Sources */,
+				6EBA7AE41F1DE59A0004BA59 /* LFVoiceUtils.m in Sources */,
+				6EBA7AEA1F1DE5E60004BA59 /* LFVoiceRecorder.m in Sources */,
 				6EBA7A8E1F1C877F0004BA59 /* AppDelegate.m in Sources */,
-				6EBA7AA41F1CAF740004BA59 /* README.md in Sources */,
-				6EBA7AA21F1C8AC50004BA59 /* LFVoiceManager.m in Sources */,
 				6EBA7A8B1F1C877F0004BA59 /* main.m in Sources */,
+				6EBA7AED1F1DE5F10004BA59 /* LFVoicePlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,9 +341,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = BH93G7K8PU;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = RecordAndPlay/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RecordAndPlay/lame",
+					"$(PROJECT_DIR)/RecordAndPlay/voice/lame",
+					"$(PROJECT_DIR)/RecordAndPlay/voice/utils/3rd",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.faney.RecordAndPlay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "718f96ae-060e-4ae5-83f7-ff08e77f72c2";
@@ -300,9 +363,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = RecordAndPlay/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RecordAndPlay/lame",
+					"$(PROJECT_DIR)/RecordAndPlay/voice/lame",
+					"$(PROJECT_DIR)/RecordAndPlay/voice/utils/3rd",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.faney.RecordAndPlay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
