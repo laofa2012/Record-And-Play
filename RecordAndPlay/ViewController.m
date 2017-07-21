@@ -45,6 +45,8 @@
     [self.recordButton addTarget:self action:@selector(recordBtnDidTouchDown:) forControlEvents:UIControlEventTouchDown];
     [self.recordButton addTarget:self action:@selector(recordBtnDidTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
     [self.recordButton addTarget:self action:@selector(recordBtnDidTouchDragExit:) forControlEvents:UIControlEventTouchDragExit];
+    
+    NSLog(@"文件地址: %@", RecordMP3FilePath);
 }
 
 #pragma mark - 录音、播放、界面更新
